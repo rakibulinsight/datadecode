@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 17, 24, 39;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
+}
+
+/* Keep monospace font for code elements */
+code, pre, .font-mono {
+  font-family: 'Source Code Pro', Menlo, Monaco, Consolas, monospace;
+}
+
+/* Custom utilities */
+.text-gradient {
+  @apply bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent;
+}
+
+.bg-glass {
+  @apply bg-dark-400/30 backdrop-blur-md;
+}
+
+.bg-glass-dark {
+  @apply bg-dark-400/50 backdrop-blur-md;
+}
+
+.btn-primary {
+  @apply px-6 py-3 bg-primary/20 hover:bg-primary/30 text-primary font-semibold rounded-lg border border-primary/30 hover:border-primary/50 shadow-lg hover:shadow-xl hover:shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased bg-dark-300 text-dark-50;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-white;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-medium shadow-sm transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply btn bg-dark-200 text-primary border-primary hover:bg-dark-100;
+  }
+
+  .code-block {
+    @apply font-code bg-dark-400 p-4 rounded-lg text-sm leading-relaxed;
+  }
+
+  .code-line {
+    @apply flex items-center space-x-2;
+  }
+
+  .code-number {
+    @apply text-dark-500 w-8 inline-block select-none;
+  }
+
+  .code-comment {
+    @apply text-dark-500;
+  }
+
+  .code-keyword {
+    @apply text-code-purple;
+  }
+
+  .code-string {
+    @apply text-code-green;
+  }
+
+  .code-function {
+    @apply text-code-blue;
+  }
+
+  .code-variable {
+    @apply text-code-orange;
+  }
+
+  .terminal-prompt::before {
+    content: '$ ';
+    @apply text-code-green;
+  }
+
+  .terminal-cursor::after {
+    content: '|';
+    @apply animate-code-blink text-primary;
+  }
+}
+
+@layer utilities {
+  .bg-matrix {
+    background-image: radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  .bg-grid {
+    @apply bg-grid-pattern;
+  }
+}

@@ -1,11 +1,8 @@
 import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const NotFound: NextPage = () => {
-  const router = useRouter();
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-dark-300">
       <div className="text-center space-y-6 p-8">

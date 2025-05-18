@@ -6,7 +6,8 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  assetPrefix: '/datadecode/',
+  assetPrefix: '/datadecode',
+  distDir: 'out',
 }
 
 module.exports = nextConfig

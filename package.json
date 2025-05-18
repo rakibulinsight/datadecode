@@ -1,5 +1,5 @@
 {
-  "homepage": "https://rakibulinsight.github.io/datadecode/",
+  "homepage": "https://rakibulinsight.github.io/datadecode",
   "name": "data-science-agency",
   "version": "0.1.0",
   "private": true,
@@ -20,15 +20,18 @@
     "@types/react": "^18.2.25",
     "@types/react-dom": "^18.2.10",
     "autoprefixer": "^10.4.16",
-    "gh-pages": "^6.3.0",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.31",
+    "rimraf": "^6.0.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "rimraf out && next build",
     "start": "next start",
+    "predeploy": "npm run build && type nul > out/.nojekyll && copy out\\404.html out\\404\\index.html",
+    "deploy": "gh-pages -d out --dotfiles --no-history",
     "lint": "next lint"
   }
 }

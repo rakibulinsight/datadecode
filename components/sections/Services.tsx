@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion, AnimatePresence } from 'framer-motion';
 import ConsultationModal from '../ConsultationModal';
 
 interface ServiceCardProps {
@@ -14,94 +13,122 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, features, technologies, benefits, delay }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const cardVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay,
+        ease: [0.25, 0.1, 0.25, 1],
+      }
+    }
+  };
+
+  const contentVariants = {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.3,
+        delay: delay + 0.2
+      }
+    }
+  };
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.6, delay }}
-      className="relative bg-glass-dark backdrop-blur-sm rounded-lg hover:shadow-2xl transition-all duration-500 border border-dark-100/10 group hover:border-primary/30"
+      variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      className="relative bg-dark-400/80 rounded-lg hover:shadow-2xl transition-all duration-500 border border-dark-100/10 group hover:border-primary/30"
     >
+      {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 backdrop-blur-sm rounded-lg" />
 
-      {/* Service Header */}
-      <div className="p-6 border-b border-dark-100/10">
-        <div className="flex items-start space-x-4">
-          <div className="text-primary w-12 h-12 flex-shrink-0">
-            {icon}
+      <motion.div
+        variants={contentVariants}
+        className="relative z-20"
+      >
+        {/* Service Header */}
+        <div className="p-6 border-b border-dark-100/10">
+          <div className="flex items-start space-x-4">
+            <div className="text-primary w-12 h-12 flex-shrink-0">
+              {icon}
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-dark-50 group-hover:text-gradient transition-all duration-300">{title}</h3>
+              <p className="text-dark-50/70 mt-2">{description}</p>
+            </div>
           </div>
+        </div>
+
+        {/* Service Details */}
+        <div className="p-6 space-y-6">
+          {/* Key Features */}
           <div>
-            <h3 className="text-xl font-bold text-dark-50 group-hover:text-gradient transition-all duration-300">{title}</h3>
-            <p className="text-dark-50/70 mt-2">{description}</p>
+            <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Key Features</h4>
+            <ul className="space-y-2">
+              {features.map((feature, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: delay + 0.1 * index }}
+                  className="flex items-center text-sm text-dark-50/70"
+                >
+                  <svg className="w-4 h-4 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
+                  </svg>
+                  {feature}
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Technologies Used */}
+          <div>
+            <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Technologies</h4>
+            <div className="flex flex-wrap gap-2">
+              {technologies.map((tech, index) => (
+                <motion.span
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: delay + 0.1 * index }}
+                  className="px-3 py-1 text-xs rounded-full bg-dark-400/50 text-dark-50/70 border border-primary/20 hover:border-primary/40 hover:text-primary transition-all duration-300"
+                >
+                  {tech}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+
+          {/* Benefits/Stats */}
+          <div>
+            <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Benefits</h4>
+            <div className="grid grid-cols-2 gap-4">
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2, delay: delay + 0.1 * index }}
+                  className="bg-dark-400/80 rounded-lg p-3 border border-primary/10"
+                >
+                  <div className="text-xs text-dark-50/60">{benefit.label}</div>
+                  <div className="text-lg font-bold text-gradient">{benefit.value}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Service Details */}
-      <div className="p-6 space-y-6">
-        {/* Key Features */}
-        <div>
-          <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Key Features</h4>
-          <ul className="space-y-2">
-            {features.map((feature, index) => (
-              <motion.li
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                transition={{ duration: 0.3, delay: delay + index * 0.1 }}
-                className="flex items-center text-sm text-dark-50/70"
-              >
-                <svg className="w-4 h-4 text-primary mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                </svg>
-                {feature}
-              </motion.li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Technologies Used */}
-        <div>
-          <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Technologies</h4>
-          <div className="flex flex-wrap gap-2">
-            {technologies.map((tech, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, delay: delay + index * 0.1 }}
-                className="px-3 py-1 text-xs rounded-full bg-dark-400/50 text-dark-50/70 border border-primary/20 hover:border-primary/40 hover:text-primary transition-all duration-300"
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </div>
-        </div>
-
-        {/* Benefits/Stats */}
-        <div>
-          <h4 className="text-sm font-semibold text-primary mb-3 font-mono"># Benefits</h4>
-          <div className="grid grid-cols-2 gap-4">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                transition={{ duration: 0.3, delay: delay + index * 0.1 }}
-                className="bg-dark-400/30 rounded-lg p-3 border border-primary/10"
-              >
-                <div className="text-xs text-dark-50/60">{benefit.label}</div>
-                <div className="text-lg font-bold text-gradient">{benefit.value}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

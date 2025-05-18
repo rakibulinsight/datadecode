@@ -13,6 +13,7 @@ import FAQ from '../components/sections/FAQ';
 import SuccessStories from '../components/sections/SuccessStories';
 import BlogSection from '../components/sections/BlogSection';
 import Footer from '../components/sections/Footer';
+import OfficeMap from '../components/sections/OfficeMap';
 
 const Home: React.FC = () => {
   return (
@@ -59,6 +60,7 @@ const Home: React.FC = () => {
           <section id="contact">
             <Contract />
           </section>
+          <OfficeMap />
         </main>
         <Footer />
       </div>

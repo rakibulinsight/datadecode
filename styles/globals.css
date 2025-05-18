@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
+  --foreground-rgb: 248, 250, 252;
   --background-start-rgb: 15, 23, 42;
-  --background-end-rgb: 17, 24, 39;
+  --background-end-rgb: 11, 18, 33;
 }
 
 body {
@@ -25,19 +25,19 @@ code, pre, .font-mono {
 
 /* Custom utilities */
 .text-gradient {
-  @apply bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-primary via-accent-purple to-accent-blue bg-clip-text text-transparent;
 }
 
 .bg-glass {
-  @apply bg-dark-400/30 backdrop-blur-md;
+  @apply bg-dark-400/30 backdrop-blur-md border border-primary/10;
 }
 
 .bg-glass-dark {
-  @apply bg-dark-400/50 backdrop-blur-md;
+  @apply bg-dark-400/50 backdrop-blur-md border border-primary/20;
 }
 
 .btn-primary {
-  @apply px-6 py-3 bg-primary/20 hover:bg-primary/30 text-primary font-semibold rounded-lg border border-primary/30 hover:border-primary/50 shadow-lg hover:shadow-xl hover:shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300;
+  @apply px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300;
 }
 
 @layer base {
@@ -50,21 +50,21 @@ code, pre, .font-mono {
   }
 
   ::selection {
-    @apply bg-primary/30 text-white;
+    @apply bg-primary/20 text-white;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md font-medium shadow-sm transition-all duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium shadow-sm transition-all duration-200;
   }
 
   .btn-secondary {
-    @apply btn bg-dark-200 text-primary border-primary hover:bg-dark-100;
+    @apply btn bg-dark-400/50 text-primary border border-primary/20 hover:bg-dark-300/80 hover:border-primary/30;
   }
 
   .code-block {
-    @apply font-code bg-dark-400 p-4 rounded-lg text-sm leading-relaxed;
+    @apply font-code bg-dark-400/50 backdrop-blur-sm border border-primary/10 p-4 rounded-lg text-sm leading-relaxed;
   }
 
   .code-line {
@@ -72,32 +72,32 @@ code, pre, .font-mono {
   }
 
   .code-number {
-    @apply text-dark-500 w-8 inline-block select-none;
+    @apply text-dark-200/40 w-8 inline-block select-none;
   }
 
   .code-comment {
-    @apply text-dark-500;
+    @apply text-dark-200/60;
   }
 
   .code-keyword {
-    @apply text-code-purple;
+    @apply text-accent-purple;
   }
 
   .code-string {
-    @apply text-code-green;
+    @apply text-accent-green;
   }
 
   .code-function {
-    @apply text-code-blue;
+    @apply text-accent-blue;
   }
 
   .code-variable {
-    @apply text-code-orange;
+    @apply text-accent-gold;
   }
 
   .terminal-prompt::before {
     content: '$ ';
-    @apply text-code-green;
+    @apply text-accent-green;
   }
 
   .terminal-cursor::after {
@@ -108,11 +108,15 @@ code, pre, .font-mono {
 
 @layer utilities {
   .bg-matrix {
-    background-image: radial-gradient(circle at 50% 50%, rgba(96, 165, 250, 0.05) 1px, transparent 1px);
+    background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
     background-size: 16px 16px;
   }
 
   .bg-grid {
     @apply bg-grid-pattern;
+  }
+
+  .hover-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1;
   }
 }
